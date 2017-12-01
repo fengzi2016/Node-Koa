@@ -57,6 +57,7 @@
 # API 规范
 
 ## API
+
 0. 注册||激活码，登录
 1. 获取主页
 2. 获取各类别页面
@@ -66,6 +67,8 @@
 6. 删除某篇文章
 7. 删除某篇评论
 8. 修改个人中心
+9. 注销
+10. 删除用户
 
 ## 注册
 
@@ -91,20 +94,19 @@ STATUS CODE:
     200 //成功 
     401 // 用户名已存在 
     402 // 邮箱已注册
-    403 // 邮箱未激活
     405 //验证码错误 
 
 ## 获取验证码
    |     url   |                    header                |methods|
 | -------- | ----------------------------------| ---------- |
-| /get_activation_code/  | Content-Type:application/json|GET|
+| /get_activation_code/  | Content-Type:application/json|POST|
 
 URL PARAMS:NONE
 
 POST DATA:
 
     {
-        "emial":string
+        "email":string
     }
 RETURN DATA:NONE
 
@@ -131,7 +133,7 @@ POST DATA:
 
 RETURN DATA:
     {
-        "usename":string,
+        "user_name":string,
     }
 
 STATUS CODE:
