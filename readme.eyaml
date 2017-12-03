@@ -17,7 +17,7 @@ tags:
 schemes:
 - "http"
 paths:
-  /user/code:
+  /users/code:
     post:
       tags:
       - "user"
@@ -46,7 +46,7 @@ paths:
         
       
       
-  /user/register:
+  /users/register:
     post:
       tags:
       - "user"
@@ -85,7 +85,7 @@ paths:
           405:
            description: "验证码错误"
           
-  /user/login:
+  /users/login:
     post:
       tags:
       - "user"
@@ -122,7 +122,7 @@ paths:
           description: "没有这个用户"
         401:
           description: "密码不正确"
-  /user/logout:
+  /users/logout:
     get:
       tags:
       - "user"
@@ -137,7 +137,7 @@ paths:
         500:
           description: "服务器发生错误"
           
-  /user/{username}:
+  /users/{username}:
     post:
       tags:
       - "user"
@@ -228,7 +228,7 @@ paths:
         404:
           description: "没有此用户"
           
-  /user/{username}/email:
+  /users/{username}/email:
     post:
       tags:
       - "user"
@@ -267,7 +267,7 @@ paths:
             description: "邮箱不存在"
           405:
             description: "验证码错误"      
-  /user/{username}/pwd:
+  /users/{username}/pwd:
     post:
       tags:
       - "user"
@@ -307,7 +307,7 @@ paths:
           405:
             description: "验证码错误"                  
   
-  /article/{sort}/{page}:
+  /articles/{sort}/{page}:
     get:
       tags:
       - "article"
@@ -324,17 +324,24 @@ paths:
       - name: "sort"
         in: "path"
         description: "以什么分类，类别分为：new,web,android,design,product"
+        type: "string"
+        required: true
       responses:
         200:
           description: "成功"
           schema:
             type: "object"
             properties:
-              articles:
-                type: "array"
-                description: "数组对象"
-                items:
-                  schema:
+                page:
+                  type: "number"
+                  description: "当前页数"
+                allpage_count: 
+                  type: "number"
+                  description: "总页数"
+                articles:
+                  type: "array"
+                  description: "数组对象"
+                  items:
                     type: "object"
                     properties:
                       id:
@@ -350,7 +357,7 @@ paths:
                         type: "string"
                         description: "博客种类"
                       date:
-                        type: "date"
+                        type: "string"
                         description: "博客更新时间"
                       user_id: 
                         type: "string"
@@ -364,24 +371,89 @@ paths:
                       comment_num:
                         type: "number"
                         description: "博客评论数量"
-                  page:
-                    type: "number"
-                    description: "当前页数"
-                  allpage_count: 
-                    type: "number"
-                    description: "总页数"
+              
       
-    put:
-      tags:
-      - "user"
-      summary: "更新用户信息"
-      description: "更新用户信息，除了密码和邮箱"
+  /articles/{title}:
+    post:
+      tags: 
+      - "article"
+      summary: "获取某篇博客"
+      description: "获取某篇博客"
       produces:
       - "application/json"
       parameters:
-      - name: "username"
+      - name: "title"
         in: "path"
-        description: "用户名"
+        description: "博客标题"
+        required: true
+        type: "string"
+      - name: "article_id"
+        in: "body"
+        description: "博客ID"
+        required: true
+        schema:
+            type: "object"
+            properties:
+              atricle_id:
+                type: "string"
+                description: "博客ID"
+      responses:
+        200:
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              article:
+                type: "object"
+                properties:
+                  article_id: 
+                    type: "string"
+                  article_title:
+                    type: "string"
+                  article_content:
+                    type: "string"
+                  article_author_name:
+                    type: "string"
+                  article_author_avatar:
+                    type: "string"
+                  article_category:
+                    type: "string"
+                  comment_num:
+                    type: "string"
+              comments:
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    comment:
+                      type: "string"
+                    date:
+                      type: "string"
+                    comment_author_name:
+                      type: "string"
+                    comment_author_avatar:
+                      type: "string"
+                    
+        404:
+          description: "文章不存在"
+                
+             
+              
+          
+    
+        
+      
+    put:
+      tags:
+      - "article"
+      summary: "更新博客"
+      description: "更新博客"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "title"
+        in: "path"
+        description: "文章名"
         required: true
         type: "string"
       - name: "body"
@@ -389,38 +461,103 @@ paths:
         description: "用户ID"
         required: true
         schema:
-            $ref: "#/definitions/User"  
+            type: "object"
+            description: "博客ID，用户ID，更新内容，更新标题，种类，更新时间"
+            properties:
+              article_id:
+                type: "string"
+                description: "博客ID"
+              user_id:
+                  type: "string"
+                  description: "用户ID"
+              article_title:
+                  type: "string"
+                  description: "博客标题"
+              category:
+                  type: "string"
+                  description: "博客种类"
+              date:
+                  type: "string"
+                  description: "博客更新时间"
       responses:
         200:
           description: "成功"
+        401:
+          description: "未登录"
+        404:
+          description: "无此文章"
         403:
           description: "无权限"
     delete:
       tags:
-      - "user"
-      summary: "删除用户"
-      description: "删除用户"
+      - "article"
+      summary: "删除博客"
+      description: "删除博客"
       produces:
       - "application/json"
       parameters:
-      - name: "username"
+      - name: "title"
         in: "path"
-        description: "用户被删除"
+        description: "博客标题"
         required: true
         type: "string"
       - name: "body"
         in: "body"
-        description: "用户ID"
+        description: "博客ID"
         required: true
         schema:
-          $ref: "#/definitions/User" 
+          type: "object"
+          properties:
+            article_id:
+              type: "string"
+              
       responses:
         200:
           description: "删除成功"
+        401:
+          description: "未登录"
         404:
-          description: "没有此用户"
+          description: "无此博客"
+        403:
+          description: "无权限"
+        
           
-
+          
+  /comments/:
+    delete:
+      tags:
+      - "comment"
+      summary: "删除评论"
+      description: "删除评论"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "评论ID，以及评论者"
+        schema:
+          type: "object"
+          properties:
+            comment_id:
+             type: "string"
+            user_id:
+              type: "string"
+        
+      responses:
+        200:
+          description: "删除成功"
+        401:
+          description: "未登录"
+        404:
+          description: "无此评论"
+        403:
+          description: "无权限"
+        
+      
+      
+    
+    
+  
                      
   
 definitions:
