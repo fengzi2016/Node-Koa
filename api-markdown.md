@@ -2,21 +2,21 @@
 
 ## 数据库内容
 
- 种类表：
-
+ 种类表(category)：
+        id:string
         content:string
- 用户表：
+ 用户表(user)：
 
         user_id  [key]:string
         user_name:string
         user_email [key]:string
         user_pwd:string
-        user_avatar_url:string
+        user_avatar:string
         user_role:string
         user_activation_code:string
         user_status:string
   
-文章表:
+文章表(article):
 
         article_id[key]:string
         article_title:string
@@ -24,7 +24,7 @@
         article_author_id:string
         article_ category:string
 
-评论表:
+评论表(comment):
 
         comment_id[key]:string
         comment_content:string
@@ -32,27 +32,27 @@
         comment_author_id:string
     
 
-用户-文章关系表:
+用户-文章关系表(user-article):
 
       id[key]:string
       user_id[foreign key]:string
       article_id[foreign key]:string
-      time:date
+      time:string
 
-用户-评论关系表：
+用户-评论关系表(user-comment)：
 
      id[key]:string
      user_id[foreign key]:string
      article_id[foreign key]:string
      comment_id[foreign key]:string
-     time:date
+     time:string
 
-文章-评论关系表：
+文章-评论关系表(article-comment)：
 
     id[key]:string
     article_id[foreign key]:string
     comment_id[foreign key]:string
-    time:date
+    time:string
 
 # API 规范
 
