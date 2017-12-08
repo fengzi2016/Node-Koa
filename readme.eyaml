@@ -17,6 +17,46 @@ tags:
 schemes:
 - "http"
 paths:
+  /users/:
+    get:
+          tags:
+          - "user"
+          summary: "获取所有用户信息"
+          description: "获取所有用户信息"
+          produces:
+          - "application/json"
+          responses:
+            200:
+              description: "返回成功"
+              schema:
+                  type: "object"
+                  properties:
+                      article_num:
+                        type: "number"
+                        description: "博客数量"
+                      comment_num: 
+                        type: "number"
+                        description: "评论数量"
+                      users:
+                        type: "array"
+                        description: "数组对象"
+                        items:
+                          type: "object"
+                          properties:
+                            user_id:
+                              type: "string"
+                              description: "用户ID"
+                            user_name:
+                              type: "string"
+                              description: "用户名字"
+                            user_avatar:
+                              type: "string"
+                              description: "用户头像链接"
+                            user_role:
+                              type: "string"
+                              description: "用户角色"
+                            
+               
   /users/code:
     post:
       tags:
