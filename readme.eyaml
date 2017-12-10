@@ -14,51 +14,84 @@ tags:
   description: "博客"
 - name: "comment"
   description: "评论"
+- name: "users"
+  description: "后台控制用户"
+- name: "articles"
+  description: "后台控制博客"
+- name: "comments"
+  description: "后台控制评论"
+  
 schemes:
 - "http"
 paths:
   /users/:
     get:
-          tags:
-          - "users"
-          summary: "获取所有用户信息"
-          description: "获取所有用户信息"
-          produces:
-          - "application/json"
-          responses:
-            200:
-              description: "返回成功"
-              schema:
+      tags:
+      - "users"
+      summary: "后台获取所有用户信息"
+      description: "获取所有用户信息"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "返回成功"
+          schema:
+            type: "object"
+            properties:
+              article_num:
+                type: "number"
+                description: "博客数量"
+              comment_num: 
+                type: "number"
+                description: "评论数量"
+              users:
+                type: "array"
+                description: "数组对象"
+                items:
                   type: "object"
                   properties:
-                      article_num:
-                        type: "number"
-                        description: "博客数量"
-                      comment_num: 
-                        type: "number"
-                        description: "评论数量"
-                      users:
-                        type: "array"
-                        description: "数组对象"
-                        items:
-                          type: "object"
-                          properties:
-                            user_id:
-                              type: "string"
-                              description: "用户ID"
-                            user_name:
-                              type: "string"
-                              description: "用户名字"
-                            user_avatar:
-                              type: "string"
-                              description: "用户头像链接"
-                            user_role:
-                              type: "string"
-    #                           description: "用户角色"
+                    user_id:
+                      type: "string"
+                      description: "用户ID"
+                    user_name:
+                      type: "string"
+                      description: "用户名字"
+                    user_avatar:
+                      type: "string"
+                      description: "用户头像链接"
+                    user_role:
+                      type: "string"
+                      description: "用户角色"               
+    # post:
+    #   tages:
+    #   - "user"
+    #   summary: "后台添加某些用户"
+    #   description: "后台添加某些用户"
+    #   produces:
+    #   - "application/json"
+    #   parameters:
+    #   - in: "body"
+    #     name: "body"
+    #     description: "用户名数组"
+    #     required: "true"
+    #     schema:
+    #       type: "array"
+    #       items:
+    #         type: "object"
+    #         properties:
+    #           user_name: "string"
+    #           user_password: "string"
+    #   responses:
+    #     200:
+    #       description: "添加成功"
+        
+      
+      
+    
     # put:
     #   tags:
     #   - "users"
-    #   summary: "更新用户信息"
+    #   summary: "前台更新用户信息"
     #   description: "更新用户信息"
     #   produces:
     #   - "application/json"
@@ -72,14 +105,34 @@ paths:
             
     #   responses:
       
-        
-                            
-               
-  /users/code:
+    delete:
+      tags:
+      - "users"
+      summary: "批量删除用户"
+      description: "批量删除用户"
+      produces: 
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "用户ID数组"
+        required: true
+        schema:
+          type: "array"
+          items:
+            type: "object"
+            properties:
+              user_id: 
+                type: "string"
+      responses:
+        200: 
+          description: "ok"
+      
+  /user/code:
     post:
       tags:
       - "user"
-      summary: "获取验证码"
+      summary: "前台获取验证码"
       description: "用户注册前先填写邮箱获取验证码"
       produces:
       - "application/json"
@@ -104,13 +157,12 @@ paths:
         
       
       
-  /users/register:
+  /user/register:
     post:
       tags:
       - "user"
-      summary: "注册"
+      summary: "前台注册"
       description: "用户得到验证码后注册"
-      # operationId: "createUser"
       produces:
       - "application/json"
       parameters:
@@ -143,11 +195,11 @@ paths:
           405:
            description: "验证码错误"
           
-  /users/login:
+  /user/login:
     post:
       tags:
       - "user"
-      summary: "用户登录"
+      summary: "前台用户登录"
       description: "用户登录平台"
       # operationId: "loginUser"
       produces:
@@ -180,11 +232,11 @@ paths:
           description: "没有这个用户"
         401:
           description: "密码不正确"
-  /users/logout:
+  /user/logout:
     get:
       tags:
       - "user"
-      summary: "注销"
+      summary: "前台注销"
       description: "用户注销账号"
       produces:
       - "application/json"
@@ -195,11 +247,11 @@ paths:
         500:
           description: "服务器发生错误"
           
-  /users/{username}:
+  /user/{username}:
     post:
       tags:
       - "user"
-      summary: "获取用户信息"
+      summary: "前台获取用户信息"
       description: "获取个人中心"
       produces:
       - "application/json"
@@ -240,7 +292,7 @@ paths:
     put:
       tags:
       - "user"
-      summary: "更新用户信息"
+      summary: "前台更新用户信息"
       description: "更新用户信息，除了密码和邮箱"
       produces:
       - "application/json"
@@ -264,7 +316,7 @@ paths:
     delete:
       tags:
       - "user"
-      summary: "删除用户"
+      summary: "前台删除用户"
       description: "删除用户"
       produces:
       - "application/json"
@@ -286,11 +338,11 @@ paths:
         404:
           description: "没有此用户"
           
-  /users/{username}/email:
+  /user/{username}/email:
     post:
       tags:
       - "user"
-      summary: "更新用户邮箱"
+      summary: "前台更新用户邮箱"
       description: "更新用户邮箱"
       produces:
       - "application/json"
@@ -325,11 +377,11 @@ paths:
             description: "邮箱不存在"
           405:
             description: "验证码错误"      
-  /users/{username}/pwd:
+  /user/{username}/pwd:
     post:
       tags:
       - "user"
-      summary: "更新用户密码"
+      summary: "前台更新用户密码"
       description: "更新用户密码"
       produces:
       - "application/json"
@@ -365,11 +417,11 @@ paths:
           405:
             description: "验证码错误"                  
   
-  /articles/{sort}/{page}:
+  /article/{sort}/{page}:
     get:
       tags:
       - "article"
-      summary: "获取博客"
+      summary: "前台获取博客"
       description: "获取文章"
       produces:
       - "application/json"
@@ -429,13 +481,97 @@ paths:
                       comment_num:
                         type: "number"
                         description: "博客评论数量"
-              
-      
-  /articles/{title}:
+  /articles/oneAllTitle:
+    post:
+      tags:
+      - "articles"
+      summary: "前后台共用：获取某人所有博客标题"
+      description: "获取某人所有博客标题"
+      produces:
+      - "application/json"
+      parameters: 
+      - name: "body"
+        in: "body"
+        description: "用户ID(存在cookie里)"
+        required: true
+        schema:
+          type: "object"
+          properties:
+            user_id: 
+              type: "string"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                article_title:
+                  type: "string"
+                article_id:
+                  type: "string"
+          
+  /articles/deletion:
+    delete:
+      tags:
+      - "articles"
+      summary: "后台删除部分博客"
+      description: "批量删除部分博客"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "博客ID"
+        required: true
+        schema:
+          type: "array"
+          items: 
+            type: "object"
+            properties:
+              article_id:
+                type: "string"
+      responses:
+        200:
+          description: "ok"  
+             
+    
+  /article/addition:
     post:
       tags: 
       - "article"
-      summary: "获取某篇博客"
+      summary: "前台添加博客"
+      description: "前台添加博客"
+      produces: 
+      - "application/json"
+      parameters: 
+      - name: "body"
+        in: "body"
+        description: "博客内容，博客发布时间，博客作者id(存在cookie里)，博客种类"
+        required: true
+        schema:
+          type: "object"
+          properties:
+            article_content:
+              type: "string"
+            time:
+              type: "string"
+            article_author_id:
+              type: "string"
+            article_category:
+              type: "string"
+      responses:
+        200:
+          description: "成功"
+        403:
+          description: "无权限"
+        
+  /article/{title}:
+    post:
+      tags: 
+      - "article"
+      summary: "前台获取某篇博客"
       description: "获取某篇博客"
       produces:
       - "application/json"
@@ -494,8 +630,9 @@ paths:
                     
         404:
           description: "文章不存在"
+
                 
-             
+              
               
           
     
@@ -504,7 +641,7 @@ paths:
     put:
       tags:
       - "article"
-      summary: "更新博客"
+      summary: "前台更新博客"
       description: "更新博客"
       produces:
       - "application/json"
@@ -546,10 +683,11 @@ paths:
           description: "无此文章"
         403:
           description: "无权限"
+          
     delete:
       tags:
       - "article"
-      summary: "删除博客"
+      summary: "前台删除博客"
       description: "删除博客"
       produces:
       - "application/json"
@@ -581,11 +719,11 @@ paths:
         
           
           
-  /comments/:
+  /comment/:
     delete:
       tags:
       - "comment"
-      summary: "删除评论"
+      summary: "前台删除评论"
       description: "删除评论"
       produces:
       - "application/json"
@@ -610,6 +748,49 @@ paths:
           description: "无此评论"
         403:
           description: "无权限"
+  /comments/deletion:
+    delete:
+      tags:
+      - "comments"
+      summary: "后台删除评论"
+      description: "根据词典批量删除"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "body"
+      in: "body"
+      description: "词典"
+      type: "string"
+      responses:
+        200:
+          description: "删除成功"
+          schema:
+            type: "object"
+            properties:
+              comment:
+                type: "array"
+                itmes:
+                  type: "object"
+                  properties:
+                    comment_content:
+                      type: "string"
+                    comment_author:
+                      type: "string"
+                    comment_time:
+                      type: "string"
+                    comment_article:
+                      type: "string"
+              comment_num:
+                type: "number"
+                
+                    
+                      
+                
+            
+            
+          
+        
+      
         
       
       
