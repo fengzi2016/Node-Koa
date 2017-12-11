@@ -2,7 +2,7 @@ const Router = require('koa-router')();
 const user = require('./api/user');
 const article = require('./api/article');
 const comment = require('./api/comment');
-const activation_code = require('./api/activation_code');
+
 // let router = new Router()
 // router.use('/', home.routes(), home.allowedMethods())
 // router.use('/page', page.routes(), page.allowedMethods())
