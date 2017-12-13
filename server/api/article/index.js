@@ -2,15 +2,17 @@
 const router = require("koa-router")();
 const controller = require("./article.controller");
 
-//前台
-router.get('article/:sort/:page',controller.getAllArticleFront);
-router.post('article/:title',controller.getOneArticleFront);
-router.post('article/addition',controller.addArticleFront);
-router.put('article/:title',controller.updateArticleFront);
-router.delete('article/:title',controller.deleteArticleFront);
+前台
+router.get('/:sort/:page',controller.getAllArticleFront);
+router.post('/:title',controller.getOneArticleFront);
+router.post('addition',controller.addArticleFront);
+router.put('/:title',controller.updateArticleFront);
+router.delete('/:title',controller.deleteArticleFront);
 
 //共用
 router.post('articles/oneAllTitle',controller.getOneAllArticleBoth);
 
 //后台
-router.deleteArticleFront('articles/deletion',controller.deleteOneArticleBack);
+router.delete('articles/deletion',controller.deleteOneArticleBack);
+
+module.exports=router;

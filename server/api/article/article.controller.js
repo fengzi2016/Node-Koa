@@ -7,12 +7,17 @@ const URL = require('url');
 
 exports.getAllArticleFront = async (ctx,next)=>{
     //前台获取所有博客:GET:/article/{sort}/{page}
+    await next();
+    ctx.response.type = 'text/html';
+    ctx.response.body = '<h1>这是addition</h1>';
+ 
 }
 exports.getOneArticleFront = async(ctx,next)=>{
     //前台获取某篇博客:POST:/article/{title}
 }
 exports.addArticleFront = async(ctx,next)=>{
     //添加博客POST:/article/addition
+    
 }
 exports.updateArticleFront = async(ctx,next)=>{
     //更新某篇博客PUT:/article/{title}
