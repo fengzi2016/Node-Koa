@@ -32,7 +32,7 @@ app.use(async (ctx)=>{
         signed:true
 
     });
-    let cookie = ctx.cookies.get('cookie');
+    let cookie = ctx.cookies.get('cookie','IM');
     console.log('ctx.cookie:'+cookie);
 })
 app.use(errorHandle());

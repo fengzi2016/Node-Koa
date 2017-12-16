@@ -1,15 +1,53 @@
+
+
 const mysql = require('mysql');
 const _ = require('lodash');
 const path = require('path');
 const URL = require('url');
+const connection = require('../../connect')
 
 //前台
 
 exports.getAllArticleFront = async (ctx,next)=>{
     //前台获取所有博客:GET:/article/{sort}/{page}
-    await next();
-    ctx.response.type = 'text/html';
-    ctx.response.body = '<h1>这是addition</h1>';
+   
+    const path = ctx.request.path;
+    const page = path.split('/')[2];
+    const sort = path.split('/')[3];
+    let sql;
+    if(page===undefined&&sort===undefined){
+        sql='SELECT * FROM article,user WHERE article_author_id = user_id';
+    }else{
+       
+        sql='SELECT article_id,article_title,article_content,article_author_id,article_category,time,user_id,user_name,user_avatar FROM article,user WHERE article_category = ?';
+        
+    }
+    let sqlparams=sort;
+    connection.query(sql,sqlparams, function(err,result){
+        if(err){
+            console.log('[SELECT ERROR]-',err.message);
+            return;
+        }
+        let res = {};
+        if(page===undefined){
+           res.page = 1;
+        }else{
+            res.page = page;     
+        }
+        res.allpage_count = result.length;
+        /**可填补 */
+        //后台分页，每页10条
+        
+        res.articles = result;
+        ctx.response.body = res;
+        console.log(ctx.response.body);
+
+    })
+
+
+ 
+    
+    
  
 }
 exports.getOneArticleFront = async(ctx,next)=>{
@@ -33,6 +71,8 @@ exports.getOneAllArticleBoth= async(ctx,next)=>{
 // 后台
 exports.deleteOneArticleBack = async(ctx,next)=>{
     //删除某人部分博客DELETE:/articles/deletion
+    // const id = ctx.request.body;
+
 }
 
 

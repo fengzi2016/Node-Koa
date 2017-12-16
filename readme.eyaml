@@ -478,9 +478,9 @@ paths:
                       user_avatar:
                         type: "string"
                         description: "作者头像链接"
-                      comment_num:
-                        type: "number"
-                        description: "博客评论数量"
+                      # comment_num:
+                      #   type: "number"
+                      #   description: "博客评论数量"
   /articles/oneAllTitle:
     post:
       tags:
