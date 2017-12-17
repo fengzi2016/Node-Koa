@@ -3,7 +3,8 @@ const router = require("koa-router")();
 const controller = require("./article.controller");
 
 //前台
-router.get('/:sort/:page',controller.getAllArticleFront);
+router.get('/',controller.getAllArticleFront);
+router.get('/:sort/:page',controller.getSomeArticleFront);
 router.post('/:title',controller.getOneArticleFront);
 router.post('addition',controller.addArticleFront);
 router.put('/:title',controller.updateArticleFront);

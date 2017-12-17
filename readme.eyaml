@@ -51,7 +51,7 @@ paths:
                   type: "object"
                   properties:
                     user_id:
-                      type: "string"
+                      type: "number"
                       description: "用户ID"
                     user_name:
                       type: "string"
@@ -123,7 +123,7 @@ paths:
             type: "object"
             properties:
               user_id: 
-                type: "string"
+                type: "number"
       responses:
         200: 
           description: "ok"
@@ -360,7 +360,7 @@ paths:
             type: "object"
             properties:
               user_id:
-                type: "string"
+                type: "number"
                 description: "用户ID，存在cookie中"
               user_email:
                 type: "string"
@@ -399,7 +399,7 @@ paths:
             type: "object"
             properties:
               user_id:
-                type: "string"
+                type: "number"
                 description: "用户ID，存在cookie中"
               old_password:
                 type: "string"
@@ -416,13 +416,63 @@ paths:
             description: "邮箱不存在"
           405:
             description: "验证码错误"                  
-  
+  /article/:
+    get:
+      tags:
+      - "article"
+      summary: "前台获取全部博客"
+      description: "前台获取全部博客"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+                page:
+                  type: "number"
+                  description: "当前页数"
+                allpage_count: 
+                  type: "number"
+                  description: "总页数"
+                articles:
+                  type: "array"
+                  description: "数组对象"
+                  items:
+                    type: "object"
+                    properties:
+                      id:
+                        type: "number"
+                        description: "博客ID"
+                      content:
+                        type: "string"
+                        description: "博客内容"
+                      title:
+                        type: "string"
+                        description: "博客标题"
+                      category:
+                        type: "string"
+                        description: "博客种类"
+                      date:
+                        type: "string"
+                        description: "博客更新时间"
+                      user_id: 
+                        type: "number"
+                        description: "作者ID"
+                      user_name:
+                        type: "string"
+                        description: "作者名字"
+                      user_avatar:
+                        type: "string"
+                        description: "作者头像链接"
+
   /article/{sort}/{page}:
     get:
       tags:
       - "article"
-      summary: "前台获取博客"
-      description: "获取文章"
+      summary: "前台获取部分博客"
+      description: "获取部分博客"
       produces:
       - "application/json"
       parameters:
@@ -455,7 +505,7 @@ paths:
                     type: "object"
                     properties:
                       id:
-                        type: "string"
+                        type: "number"
                         description: "博客ID"
                       content:
                         type: "string"
@@ -470,7 +520,7 @@ paths:
                         type: "string"
                         description: "博客更新时间"
                       user_id: 
-                        type: "string"
+                        type: "number"
                         description: "作者ID"
                       user_name:
                         type: "string"
@@ -498,7 +548,7 @@ paths:
           type: "object"
           properties:
             user_id: 
-              type: "string"
+              type: "number"
       responses:
         200:
           description: OK
@@ -510,7 +560,7 @@ paths:
                 article_title:
                   type: "string"
                 article_id:
-                  type: "string"
+                  type: "number"
           
   /articles/deletion:
     delete:
@@ -531,7 +581,7 @@ paths:
             type: "object"
             properties:
               article_id:
-                type: "string"
+                type: "number"
       responses:
         200:
           description: "ok"  
@@ -558,7 +608,7 @@ paths:
             time:
               type: "string"
             article_author_id:
-              type: "string"
+              type: "number"
             article_category:
               type: "string"
       responses:
@@ -589,7 +639,7 @@ paths:
             type: "object"
             properties:
               atricle_id:
-                type: "string"
+                type: "number"
                 description: "博客ID"
       responses:
         200:
@@ -601,7 +651,7 @@ paths:
                 type: "object"
                 properties:
                   article_id: 
-                    type: "string"
+                    type: "number"
                   article_title:
                     type: "string"
                   article_content:
@@ -660,10 +710,10 @@ paths:
             description: "博客ID，用户ID，更新内容，更新标题，种类，更新时间"
             properties:
               article_id:
-                type: "string"
+                type: "number"
                 description: "博客ID"
               user_id:
-                  type: "string"
+                  type: "number"
                   description: "用户ID"
               article_title:
                   type: "string"
@@ -705,7 +755,7 @@ paths:
           type: "object"
           properties:
             article_id:
-              type: "string"
+              type: "number"
               
       responses:
         200:
@@ -735,9 +785,9 @@ paths:
           type: "object"
           properties:
             comment_id:
-             type: "string"
+             type: "number"
             user_id:
-              type: "string"
+              type: "number"
         
       responses:
         200:
@@ -804,7 +854,7 @@ definitions:
     type: "object"
     properties:
       user_id:
-        type: "string"
+        type: "number"
         description: "用户ID,在cookie中" 
     description: "User Status"
     
