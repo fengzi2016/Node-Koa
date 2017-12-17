@@ -62,7 +62,21 @@ exports.getSomeArticleFront = async (ctx,next)=>{
  
 }
 exports.getOneArticleFront = async(ctx,next)=>{
+    const req = ctx.request.body;
+    const article_id = req.article_id;
+    let sql = 'SELECT article_id,article_title,article_content,user_name,user_avatar,article_category from article,user WHERE article_id = ? and article_author_id = user_id';
+    let sqlparams = article_id;
+    let res={};
+    connection.query(sql,sqlparams,function(err,result){
+        if(err){
+            console.log('[SELECT ERROR]-',err.message);
+            return;
+        }
+        res.article = result;
+    });
     
+
+
 
 
     //前台获取某篇博客:POST:/article/{title}
