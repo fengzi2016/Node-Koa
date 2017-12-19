@@ -4,25 +4,28 @@ const mysql = require('mysql');
 const _ = require('lodash');
 const path = require('path');
 const URL = require('url');
-const connection = require('../../connect')
+const articleTemplate = require('../../../dao/article');
+
 
 //前台
 exports.getAllArticleFront = async (ctx,next)=>{
 //前台获取所有博客:GET:/article
-let sql='SELECT article_id,article_title,article_content,article_author_id,article_category,time,user_id,user_name,user_avatar FROM article,user';
-connection.query(sql,function(err,result){
-    if(err){
-        console.log('[SELECT ERROR]-',err.message);
-        return;
-    }
+// let sql='SELECT article_id,article_title,article_content,article_author_id,article_category,time,user_id,user_name,user_avatar FROM article,user';
+//页数：10=>作为业务的某个对象？
+
+    let result = await articleTemplate.getListAll();
     let res = {};
-    res.page = 1;     
+    res.page = ctx.request.body;     
     res.allpage_count = result.length;
+   
+    if(result.length>=10 && result.length-page*10>=0){
+        result = result.slice((page-1)*10+1,page*10);
+    }else if(result.length-page*10<0){
+        result = result.slice((page-1)*10+1);
+    }
     res.articles = result;
     ctx.response.body = res;
     console.log(ctx.response.body);
-
-})
 
 }
 exports.getSomeArticleFront = async (ctx,next)=>{

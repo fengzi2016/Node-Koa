@@ -424,6 +424,12 @@ paths:
       description: "前台获取全部博客"
       produces:
       - "application/json"
+      parameters:
+      - name: 'page'
+        in: "body"
+        description: "页数"
+        type: 'string'
+        required: true
       responses:
         200:
           description: "成功"
