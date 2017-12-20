@@ -5,7 +5,7 @@ const _ = require('lodash');
 const path = require('path');
 const URL = require('url');
 const articleTemplate = require('../../../dao/article');
-
+const userTemlpate = require('../../../dao/user');
 
 //前台
 exports.getAllArticleFront = async (ctx,next)=>{
@@ -14,6 +14,8 @@ exports.getAllArticleFront = async (ctx,next)=>{
 //页数：10=>作为业务的某个对象？
 
     let result = await articleTemplate.getListAll();
+    
+  
     let res = {};
     res.page = ctx.request.body;     
     res.allpage_count = result.length;
