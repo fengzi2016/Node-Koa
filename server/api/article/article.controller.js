@@ -4,8 +4,8 @@ const mysql = require('mysql');
 const _ = require('lodash');
 const path = require('path');
 const URL = require('url');
-const articleTemplate = require('../../../dao/article');
-const userTemlpate = require('../../../dao/user');
+const articleUserTemplate = require('../../../dao/article_user_comment');
+
 
 //前台
 exports.getAllArticleFront = async (ctx,next)=>{
@@ -13,9 +13,7 @@ exports.getAllArticleFront = async (ctx,next)=>{
 // let sql='SELECT article_id,article_title,article_content,article_author_id,article_category,time,user_id,user_name,user_avatar FROM article,user';
 //页数：10=>作为业务的某个对象？
 
-    let result = await articleTemplate.getListAll();
-    
-  
+    let result = await articleUserTemplate.getListAll();
     let res = {};
     res.page = ctx.request.body;     
     res.allpage_count = result.length;
