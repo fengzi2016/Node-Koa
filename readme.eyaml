@@ -711,7 +711,7 @@ paths:
         type: "string"
       - name: "body"
         in: "body"
-        description: "用户ID"
+        description: "用户ID，博客ID"
         required: true
         schema:
             type: "object"
@@ -720,6 +720,9 @@ paths:
               article_id:
                 type: "number"
                 description: "博客ID"
+              article_content:
+                type: "string"
+                description: "博客内容"
               user_id:
                   type: "number"
                   description: "用户ID"
@@ -729,7 +732,7 @@ paths:
               category:
                   type: "string"
                   description: "博客种类"
-              date:
+              time:
                   type: "string"
                   description: "博客更新时间"
       responses:

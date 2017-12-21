@@ -83,5 +83,18 @@ articleTemplateDao.update = (articleTemplate) => {
         }
     })
 }
+articleTemplateDao.getTitleById = (user_id) =>{
+    var sql  = 'select article_title,article_id from article where article_author_id = ?'; 
+    var param = [user_id];
+    return db.query(sql,param).then((err,result) => {
+        if(err){
+            console.log('[select error]:'+err);
+            return;
+        }else{
+            return result;
+        }
+    })
+
+}
 
 module.exports = articleTemplateDao;
