@@ -18,7 +18,7 @@ commentTemplateDao.getListAll = (connection) => {
 }
 //根据博客ID获取评论列表
 commentTemplateDao.getListByArticleId = (article_id,connection) => {
-    var sql = 'select  * from comment where article_id = article_id ';
+    var sql = 'select  * from comment where article_id = ? ';
     var param = [article_id];
     return db.query(sql,param,connection).then((err,result) => {
         if(err){
