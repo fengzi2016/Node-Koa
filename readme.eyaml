@@ -781,6 +781,35 @@ paths:
           
           
   /comment/:
+    post:
+      tag:
+      - "comment"
+      summary: "前台添加评论"
+      description: "前台添加评论"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "评论博客ID，评论者ID"
+        schema:
+          type: "object"
+          properties:
+            article_id:
+              type: "number"
+            comment_author_id:
+              type: "number"
+            comment_time:
+              type: "string"
+            comment_content:
+              type: "string"
+            
+      responses:
+        200:
+          description: "评论成功"
+        403:
+          description: "无权限"
+
     delete:
       tags:
       - "comment"
