@@ -69,6 +69,20 @@ articleTemplateDao.delete = (id) => {
 
     })
 }
+//批量删除博客
+articleTemplateDao.deleteList = (articles_id_array) =>{
+    var sql = 'delete from article where article_id in ?'
+    var param = articles_id_array;
+    return db.query(sql,param).then((err,result) => {
+        if(err){
+            console.log('[delete err]:'+err);
+            return;
+        }else{
+            return result;
+        }
+    })
+    
+}
 //更改博客
 articleTemplateDao.update = (articleTemplate) => {
     //仅限更改博客内容，标题，更新时间,种类

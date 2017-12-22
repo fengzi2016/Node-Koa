@@ -153,8 +153,20 @@ exports.getOneAllArticleBoth = async (ctx, next) => {
 }
 // 后台
 exports.deleteOneArticleBack = async (ctx, next) => {
-    //删除某人部分博客DELETE:/articles/deletion
-    // const id = ctx.request.body;
+    try{
+         //删除某人部分博客DELETE:/articles/deletion
+        let articles_id_array = ctx.request.body;
+        articles_id_array.map((value)=>{
+            value = value.article_id;
+            return value;
+        });
+        let result = await  articleTemplate.deleteList(articles_id_array);
+        ctx.response.status = 200;
+        ctx.response.body = 'delete-group-ok'
+    }catch{
+        ctx.response.status = 500;
+    }
+   
 
 }
 
