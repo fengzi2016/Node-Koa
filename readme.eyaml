@@ -148,8 +148,18 @@ paths:
               type: "string"
               description: "邮箱"  
       responses:
+
         200:
           description: "已发送"
+          schema:
+            type: 'object'
+            properties:
+              user_activation_code:
+                type: 'string'
+                description: "激活码"
+              code_expires:
+                type: "string"
+                description: '有效期'
         403:
           description: "邮箱已注册"
         404: 
@@ -168,7 +178,7 @@ paths:
       parameters:
       - in: "body"
         name: "body"
-        description: "密码，用户名，邮箱，激活码"
+        description: "密码，用户名，邮箱，激活码，用户角色"
         required: true
         schema:
           type: "object"
@@ -184,7 +194,14 @@ paths:
               description: "邮箱"  
             activation_code:
               type: "string"
-              description: "激活码"    
+              description: "激活码"
+            user_role:
+              type: "string" 
+              description: "用户角色"
+            
+          
+              
+
       responses:
           200:
             description: "成功 "

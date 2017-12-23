@@ -4,9 +4,9 @@ const db = require('../server/connect');
 var userTemplateDao = {};
 
 //获取所有用户
-userTemplateDao.getListAll = (connection) => {
+userTemplateDao.getListAll = () => {
     var sql = 'select * from user';
-    return db.query(sql,connection).then((err,result) => {
+    return db.query(sql).then((err,result) => {
         if(err){
             console.log('[select error]:'+err);
             return;
@@ -17,10 +17,10 @@ userTemplateDao.getListAll = (connection) => {
 
 }
 //根据ID取单个用户信息
-userTemplateDao.getByID = (id,connection) => {
+userTemplateDao.getByID = (id) => {
     var sql = 'select * from user where user_id = ?';
     var param = [id];
-    return db.query(sql,param,connection).then((err,result) => {
+    return db.query(sql,param).then((err,result) => {
         if(err){
             console.log('[select error]:'+err);
             return;
@@ -29,12 +29,25 @@ userTemplateDao.getByID = (id,connection) => {
         }
     })
 }
-
+//根据邮箱获取用户信息
+userTemplateDao.getByEmail = (user_email) => {
+    var sql = 'select * from user  where user_email = ?';
+    var param = [user_email];
+    return db.query(sql,param).then((err,result) => {
+        if(err){
+            console.log('[select error]:'+err);
+            return;
+        }else{
+            return result;
+        }
+    })
+}
 //注册
-userTemplateDao.add = (userTemplate,connection) => {
-    var sql = 'insert into user(user_name,user_email,user_pwd,user_avatar,user_role,user_activation_code,user_status) values (?,?,?,?,?,?,?)';
-    var param = [userTemplate.user_name,userTemplate.user_email,userTemplate.user_pwd,userTemplate.user_avatar,userTemplate.user_role,userTemplate.user_activation_code,userTemplate.user_status];
-    return db.query(sql,param,connection).then((err,result) => {
+userTemplateDao.add = (userTemplate) => {
+    
+    var sql = 'insert into user(user_name,user_email,user_pwd,user_role,user_activation_code,user_status) values (?,?,?,?,?,?,?)';
+    var param = [userTemplate.user_name,userTemplate.user_email,userTemplate.user_pwd,userTemplate.user_role,userTemplate.user_activation_code,'已激活'];
+    return db.query(sql,param).then((err,result) => {
         if(err){
             console.log('[insert error]:'+err);
             return;
@@ -44,10 +57,10 @@ userTemplateDao.add = (userTemplate,connection) => {
     })
 }
 //用户申请删除自己账号
-userTemplateDao.delete = (id,connection) => {
+userTemplateDao.delete = (id) => {
     var sql = 'delete from user where user_id = ?';
     var param = [id];
-    return db.query(sql,param,connection).then((err,result) => {
+    return db.query(sql,param).then((err,result) => {
         if(err){
             console.log('[delete err]:'+err);
             return;
@@ -58,11 +71,11 @@ userTemplateDao.delete = (id,connection) => {
     })
 }
 //更改用户信息
-userTemplateDao.update = (userTemplate,connection) => {
+userTemplateDao.update = (userTemplate) => {
     //仅限更改用户名，用户密码，用户邮箱，用户密码，用户角色，用户状态，用户头像链接
     var sql = 'update user set user_ name = ? , user_email = ?, user_pwd = ?,user_role = ?,user_status = ? ,user_avatar = ? where user_id = ?';
     var param = [userTemplate.user_name,userTemplate.user_email,userTemplate.user_pwd,userTemplate.user_role,userTemplate.user_status,userTemplate.user_id,userTemplate.user_avatar];
-    return db.query(sql,param,connection).then((err,result) => {
+    return db.query(sql,param).then((err,result) => {
         if(err){
             console.log('[update error]:'+err);
             return;
