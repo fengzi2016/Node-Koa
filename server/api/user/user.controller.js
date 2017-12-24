@@ -59,6 +59,16 @@ exports.logoutFront = async(ctx,next)=>{
 
 exports.updateMeFront = async(ctx,next)=>{
     //更新个人信息PUT:/user/{username}
+    try{
+        let req = ctx.request.body;
+        let result = await userTemplate.update(req);
+        ctx.response.body = 'update ok'
+
+    }catch{
+        ctx.response.status = 500;
+    }
+    
+
 }
 exports.updateEmailFront = async(ctx,next)=>{
     // 更新邮箱POST:/user/{username}/email
@@ -76,6 +86,14 @@ exports.getMeBoth = async(ctx,next)=>{
 //后台
 exports.getAllUsersBack = async(ctx,next)=>{
     //后台获取所有用户(n>=1)GET:/users/
+    try{
+        let result = await userTemplate.getListAll();
+        ctx.response.body = result;
+    }catch{
+        ctx.response.status = 500;
+    }
+    
+
 } 
 // exports.addUsersBack = async(ctx,next)=>{
 //     //后台添加部分用户(n>=1)POST:/users/
@@ -83,6 +101,18 @@ exports.getAllUsersBack = async(ctx,next)=>{
 // }
 exports.deleteUsersBack = async(ctx,next)=>{
     //后台删除部分用户(n>=1)DELETE:/users/
+    try{
+        let ids = ctx.response.body;
+        ids.map((value)=>{
+            value = value.user_id;
+            return value;
+        })
+        let result = userTemplate.deleteList(ids);
+        ctx.response.body = 'delete ok'
+    }catch{
+        ctx.response.status = 500;
+    }
+   
 }
 // exports.updateUsersBack = async(ctx,next)=>{
 //     //后台更新部分用户(n>=1)

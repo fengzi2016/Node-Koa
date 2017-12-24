@@ -84,5 +84,18 @@ userTemplateDao.update = (userTemplate) => {
         }
     })
 }
+//后台批量删除部分用户
+userTemplateDao.deleteList = (ids) =>{
+    let sql = 'delete from user where user_id in ?'
+    let param = [ids];
+    return db.query(sql,param).then((err,result) => {
+        if(err){
+            console.log('[delete err]:'+err);
+            return;
+        }else{
+            return result;
+        }
 
+    })
+}
 module.exports = userTemplateDao;

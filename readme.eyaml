@@ -324,7 +324,22 @@ paths:
         description: "用户ID"
         required: true
         schema:
-            $ref: "#/definitions/User"  
+            type: "object"
+            properties:
+              user_id:
+                type: 'number'
+              user_name:
+                type: 'string'
+              user_email:
+                type: 'string'
+              user_pwd:
+                type: 'string'
+              user_role:
+                type: 'string'
+              user_status:
+                type: 'string'
+              user_avatar:
+                type: 'string' 
       responses:
         200:
           description: "成功"
