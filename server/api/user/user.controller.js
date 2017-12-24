@@ -18,7 +18,7 @@ exports.getCodeFront = async (ctx,next)=>{
         let response = {};
         if(result.length==0||result[0].status == '未激活'){
             //生成4位激活码
-            crypto.randomBytes(4,(err,buf) => {
+            crypto.randomBytes(10,(err,buf) => {
                 response.user_activation_code = email + buf.toString('hex');
                 //设置有效期为24小时
                 response.code_expires = new Date(Date.now()+24 * 3600 * 1000);

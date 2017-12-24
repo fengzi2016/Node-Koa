@@ -26,7 +26,9 @@ app.use(async (ctx)=>{
         domain: 'localhost',
         path: '/',
         maxAge:10*60*100,
-        expires:new Date('2017-12-15'),
+        expires:new Date(
+            
+        ),
         httpOnly: false,
         overwrite:false,
         signed:true
