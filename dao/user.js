@@ -42,6 +42,20 @@ userTemplateDao.getByEmail = (user_email) => {
         }
     })
 }
+//登录
+userTemplateDao.login =　(user_email,user_pwd) => {
+    var sql  = 'select * from user where user_email = ? && user_pwd = ?'
+    var param = [user_email,user_pwd];
+    return db.query(sql,param).then((err,result) => {
+        if(err){
+            console.log('[select error]:'+err);
+            return;
+        }else{
+            return result;
+        }
+    })
+
+}
 //注册
 userTemplateDao.add = (userTemplate) => {
     

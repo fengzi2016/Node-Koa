@@ -14,19 +14,19 @@ exports.getAllArticleFront = async (ctx, next) => {
     //页数：10=>作为业务的某个对象？
     try{
         let result = await combineTemplate.getAllArticleFront();
-    let res = {};
-    res.page = ctx.request.body;
-    res.allpage_count = result.length;
+        let res = {};
+        res.page = ctx.request.body;
+        res.allpage_count = result.length;
 
-    if (result.length >= 10 && result.length - page * 10 >= 0) {
-        result = result.slice((page - 1) * 10 + 1, page * 10);
-    } else if (result.length - page * 10 < 0) {
-        result = result.slice((page - 1) * 10 + 1);
-    }
-    res.articles = result;
-    ctx.response.body = res;
-    
-    console.log(ctx.response.body);
+        if (result.length >= 10 && result.length - page * 10 >= 0) {
+            result = result.slice((page - 1) * 10 + 1, page * 10);
+        } else if (result.length - page * 10 < 0) {
+            result = result.slice((page - 1) * 10 + 1);
+        }
+        res.articles = result;
+        ctx.response.body = res;
+        
+        console.log(ctx.response.body);
     }catch{
         ctx.response.status = 500;
     }

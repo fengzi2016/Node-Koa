@@ -41,3 +41,4 @@ combineTemplateDao.getOneArticleFront = (article_id) =>{
         }
     })
 }
+module.exports = combineTemplateDao;

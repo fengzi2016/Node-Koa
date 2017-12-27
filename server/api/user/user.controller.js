@@ -4,8 +4,9 @@ const commentTemplate = require('../../../dao/comment');
 const combineTemplate = require('../../../dao/article_user_comment');
 const crypto = require ('crypto');//生成不重复的激活码
 const sendMailer = require('../../util/email/send_mailer');
-
-
+const session = require('koa-session-minimal');
+const koa = require('koa');
+const app = new koa();
 
 //前台
 
@@ -51,6 +52,23 @@ exports.registerFront = async(ctx,next)=>{
 }
 exports.loginFront = async(ctx,next)=>{
     //登录POST:/user/login
+    let pwd = ctx.request.body.password;
+    let email = ctx.request.body.email;
+    let emailresult = await userTemplate.getByEmail(email);
+    let result = await userTemplate.login(email,pwd);
+    if(emailresult.length === 0){
+        ctx.response.status = 404 ;
+        ctx.response.body = '用户未注册'
+    }
+    if(result.length === 0){
+        ctx.response.status = 403;
+        ctx.response.body ='密码错误'
+    }else{
+        app.use(session({
+            key: 'SESSION_ID',
+        }))
+    }
+    
     
 }
 exports.logoutFront = async(ctx,next)=>{
