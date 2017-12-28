@@ -8,8 +8,9 @@ exports.addCommentFront = async(ctx,next)=>{
         ctx.response.body = "add OK";
         ctx.response.status = 200;
         console.log(result);
-    }catch{
+    }catch(err){
         ctx.response.status = 500;
+        console.log(err);
     }
     
 
@@ -30,8 +31,9 @@ exports.deleteCommentFront=async(ctx,next)=>{
             ctx.response.body = '无权限';
         }
        
-    }catch{
+    }catch(err){
         ctx.response.status = 500;
+        console.log(err);
     }
 
 }
@@ -43,7 +45,8 @@ exports.deleteSomeBack= async(ctx,next)=>{
         let result = await commentTemplate.deleteList(req);
         console.log(result);
         ctx.response.body ='删除OK';
-    }catch{
+    }catch(err){
         ctx.response.status = 500;
+        console.log(err);
     }
 }

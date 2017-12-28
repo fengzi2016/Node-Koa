@@ -13,7 +13,7 @@ var defaultMail = {
     from: 'MuXi <15779165029@163.com>',
     text: 'test text',
 };
-odule.exports = function(mail){
+module.exports = function(mail){
     // 应用默认配置
     mail = _.merge({}, defaultMail, mail);
     

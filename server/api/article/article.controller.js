@@ -27,8 +27,9 @@ exports.getAllArticleFront = async (ctx, next) => {
         ctx.response.body = res;
         
         console.log(ctx.response.body);
-    }catch{
+    }catch(err){
         ctx.response.status = 500;
+        console.log(err);
     }
     
 
@@ -56,8 +57,9 @@ exports.getSomeArticleFront = async (ctx, next) => {
         res.articles = result;
         ctx.response.body = res;
         console.log(ctx.response.body);
-    }catch{
+    }catch(err){
         ctx.response.status = 500;
+        console.log(err);
     }
    
 }
@@ -76,8 +78,9 @@ exports.getOneArticleFront = async (ctx, next) => {
 
         console.log(result);
      
-    }catch{
+    }catch(err){
         ctx.response.status = 500;
+        console.log(err);
     }
     
 
@@ -94,8 +97,9 @@ exports.addArticleFront = async (ctx, next) => {
         ctx.response.body = 'add ok';
 
         console.log(result);
-    }catch{
+    }catch(err){
         ctx.response.status = 500;
+        console.log(err);
     }
     
     
@@ -110,8 +114,9 @@ exports.updateArticleFront = async (ctx, next) => {
         ctx.response.body = 'update ok';
 
         console.log(result);
-    }catch{
+    }catch(err){
         ctx.response.status = 500;
+        console.log(err);
     }
    
     
@@ -130,8 +135,9 @@ exports.deleteArticleFront = async (ctx, next) => {
         console.log(result);
 
 
-    }catch{
+    }catch(err){
         ctx.response.status = 500;
+        console.log(err);
     }
 }
 //共用
@@ -141,8 +147,9 @@ exports.getOneAllArticleBoth = async (ctx, next) => {
         let user_id =  ctx.request.body.user_id;
         let result = await articleTemplate.getTitleById(user_id);
         ctx.response.body = result;
-    }catch{
+    }catch(err){
         ctx.response.status = 500;
+        console.log(err);
     }
 }
 // 后台
@@ -157,8 +164,9 @@ exports.deleteOneArticleBack = async (ctx, next) => {
         let result = await  articleTemplate.deleteList(articles_id_array);
         ctx.response.status = 200;
         ctx.response.body = 'delete-group-ok'
-    }catch{
+    }catch(err){
         ctx.response.status = 500;
+        console.log(err);
     }
    
 

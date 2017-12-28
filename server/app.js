@@ -3,6 +3,7 @@ const Koa=require('koa');
 const app=new Koa();
 const connection = require('./connect');
 const errorHandle = require('./util/error');
+
 require('./routes')(app);
 // connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
 //     if (error) throw error;
@@ -21,8 +22,8 @@ require('./routes')(app);
 //根据访问时间设置cookie
 app.keys=['IM']
 app.use(async (ctx)=>{
-    let date= Date();
-    ctx.cookies.set('cookie','A',{
+    let value = 'guan'
+    ctx.cookies.set('cookie',value,{
         domain: 'localhost',
         path: '/',
         maxAge:10*60*100,
@@ -32,7 +33,9 @@ app.use(async (ctx)=>{
 
     });
     let cookie = ctx.cookies.get('cookie','IM');
+    ctx.body = 'cookie'
     console.log('ctx.cookie:'+cookie);
 })
 app.use(errorHandle());
+// app.use(bodyParse());
 module.exports=app;

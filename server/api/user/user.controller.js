@@ -4,9 +4,11 @@ const commentTemplate = require('../../../dao/comment');
 const combineTemplate = require('../../../dao/article_user_comment');
 const crypto = require ('crypto');//生成不重复的激活码
 const sendMailer = require('../../util/email/send_mailer');
-const session = require('koa-session-minimal');
-const koa = require('koa');
-const app = new koa();
+// const session = require('koa-session-minimal');
+// const koa = require('koa');
+// const app = new koa();
+
+
 
 //前台
 
@@ -34,8 +36,9 @@ exports.getCodeFront = async (ctx,next)=>{
             ctx.response.body = response;
             
         }
-    }catch{
+    }catch(err){
         ctx.response.status = 500;
+        console.log(err);
     }
    
 }
@@ -46,12 +49,15 @@ exports.registerFront = async(ctx,next)=>{
         let result = await userTemplate.add(user);
         console.log(result);
         ctx.response.body = '注册成功';
-    }catch{
+    }catch(err){
         ctx.response.status = 500;
+        console.log(err);
     }
 }
 exports.loginFront = async(ctx,next)=>{
+   
     //登录POST:/user/login
+
     let pwd = ctx.request.body.password;
     let email = ctx.request.body.email;
     let emailresult = await userTemplate.getByEmail(email);
@@ -64,15 +70,34 @@ exports.loginFront = async(ctx,next)=>{
         ctx.response.status = 403;
         ctx.response.body ='密码错误'
     }else{
-        app.use(session({
-            key: 'SESSION_ID',
-        }))
+        // app.use(session({
+        //     key: 'SESSION_ID',
+        //     cookie:
+
+        // }))
+        let date = new Date();
+        ctx.session = {
+            user_id: Math.random().toString(36).substr(2)+date,
+        }
+        
+        ctx.cookies.set('SESSION_ID',ctx.session,{
+            domain: 'localhost',//写cookie所在域名
+            path: '/user/login',//写cookie所在路径
+            maxAge:10*60*100,//cookie有效时长
+            httpOnly: true,//是否只用于https请求中
+            overwrite:false,//是否允许重写
+            signed:true//是否有签名
+        });
+        ctx.cookies
+        ctx.body = ctx.session;   
     }
     
     
 }
 exports.logoutFront = async(ctx,next)=>{
     //注销GET:/user/logout
+    ctx.session = null;
+    
 }
 
 exports.updateMeFront = async(ctx,next)=>{
@@ -82,8 +107,9 @@ exports.updateMeFront = async(ctx,next)=>{
         let result = await userTemplate.update(req);
         ctx.response.body = 'update ok'
 
-    }catch{
+    }catch(err){
         ctx.response.status = 500;
+        console.log(err);
     }
     
 
@@ -107,8 +133,9 @@ exports.getAllUsersBack = async(ctx,next)=>{
     try{
         let result = await userTemplate.getListAll();
         ctx.response.body = result;
-    }catch{
+    }catch(err){
         ctx.response.status = 500;
+        console.log(err);
     }
     
 
@@ -127,8 +154,9 @@ exports.deleteUsersBack = async(ctx,next)=>{
         })
         let result = userTemplate.deleteList(ids);
         ctx.response.body = 'delete ok'
-    }catch{
+    }catch(err){
         ctx.response.status = 500;
+        console.log(err);
     }
    
 }
