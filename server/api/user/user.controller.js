@@ -116,6 +116,8 @@ exports.updateMeFront = async(ctx,next)=>{
 }
 exports.updateEmailFront = async(ctx,next)=>{
     // 更新邮箱POST:/user/{username}/email
+    
+
 }
 exports.updatePasswordFront = async(ctx,next)=>{
     // 更新密码POST:/user/{username}/pwd
@@ -126,6 +128,11 @@ exports.deleteMeFront = async(ctx,next)=>{
 //共用
 exports.getMeBoth = async(ctx,next)=>{
     //获取某人所有信息POST:/user/{username}
+
+
+
+
+    
 }
 //后台
 exports.getAllUsersBack = async(ctx,next)=>{
