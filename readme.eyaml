@@ -284,6 +284,7 @@ paths:
         required: true
         schema:
             $ref: "#/definitions/User"  
+
       responses:
         200:
           description: "成功"
@@ -302,7 +303,7 @@ paths:
               comment_num:
                 type: "number"
                 description: "所写评论数量"
-        400:
+        404:
           description: "查无此人"
                 
        
@@ -397,18 +398,18 @@ paths:
               user_email:
                 type: "string"
                 description: "新邮箱"
-              activation_code:
-                type: "string"
-                description: "激活码"  
+              # activation_code:
+              #   type: "string"
+              #   description: "激活码"  
       responses:
           200:
             description: "成功"
           403:
             description: "邮箱已注册"
-          404:
-            description: "邮箱不存在"
-          405:
-            description: "验证码错误"      
+          # 404:
+          #   description: "邮箱不存在"
+          # 405:
+          #   description: "验证码错误"      
   /user/{username}/pwd:
     post:
       tags:
@@ -444,10 +445,10 @@ paths:
             description: "成功"
           403:
             description: "邮箱已注册"
-          404:
-            description: "邮箱不存在"
-          405:
-            description: "验证码错误"                  
+          # 404:
+          #   description: "邮箱不存在"
+          # 405:
+          #   description: "验证码错误"                  
   /article/:
     get:
       tags:

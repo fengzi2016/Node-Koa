@@ -86,7 +86,7 @@ userTemplateDao.delete = (id) => {
 }
 //更改用户信息
 userTemplateDao.update = (userTemplate) => {
-    //仅限更改用户名，用户密码，用户邮箱，用户密码，用户角色，用户状态，用户头像链接
+    //仅限更改用户名，用户邮箱，用户密码，用户角色，用户状态，用户头像链接
     var sql = 'update user set user_ name = ? , user_email = ?, user_pwd = ?,user_role = ?,user_status = ? ,user_avatar = ? where user_id = ?';
     var param = [userTemplate.user_name,userTemplate.user_email,userTemplate.user_pwd,userTemplate.user_role,userTemplate.user_status,userTemplate.user_id,userTemplate.user_avatar];
     return db.query(sql,param,(err,result) => {
@@ -98,6 +98,7 @@ userTemplateDao.update = (userTemplate) => {
         }
     })
 }
+
 //后台批量删除部分用户
 userTemplateDao.deleteList = (ids) =>{
     let sql = 'delete from user where user_id in ?'

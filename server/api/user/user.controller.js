@@ -115,20 +115,77 @@ exports.updateMeFront = async(ctx,next)=>{
 
 }
 exports.updateEmailFront = async(ctx,next)=>{
+    //填入新邮箱，获取验证码，验证验证码，修改邮箱
     // 更新邮箱POST:/user/{username}/email
+    let req = ctx.request.body;
+    let email = await userTemplate.getByEmail(req.user_email);
+    if(email.length>0){
+        ctx.response.status = 403 //邮箱已经注册
+    }else{
+        let old_info = userTemplate.getById(req.user_id)[0];
+        old_info.user_email =req.user_email;
+        try{
+            let result = userTemplate.update(old_info);
+            console.log(result);
+            ctx.response.body = 'update email ok'
+        }catch(err){
+            ctx.response.status = 500;
+        }
+       
+    }
+   
     
 
 }
 exports.updatePasswordFront = async(ctx,next)=>{
+    //填入旧密码，验证旧密码，修改密码
     // 更新密码POST:/user/{username}/pwd
+    let req = ctx.request.body;
+    let old_info =await userTemplate.getById(req.user_id)[0];
+    if(old_info.user_password == req.old_password){
+        old_info.user_password == new_password;
+        try{
+            let result = userTemplate.update(old_info);
+            console.log(result);
+            ctx.response.body = 'update password ok'
+        }catch(err){
+            ctx.response.status = 500;
+        }
+    }
+    else{
+        ctx.response.status = 403 //密码错误，无权限
+    }
+
 }
 exports.deleteMeFront = async(ctx,next)=>{
     //前台申请删除自己DELETE:/user/{username}
+    let req = ctx.response.body;
+    try{
+        let result = await userTemplate.delete(req.user_id);
+        if(result.length === 0 ) {
+            ctx.response.status = 404; //没有此用户
+        }else{
+            ctx.response.body = 'delete ok'
+        }
+    }catch(err){
+        ctx.response.status = 500;
+    }
+
 }
 //共用
 exports.getMeBoth = async(ctx,next)=>{
     //获取某人所有信息POST:/user/{username}
-
+    let req = ctx.request.body;
+    try{
+        let result = await userTemplate.getById(req.user_id);
+        if(result.length == 0){
+            ctx.response.status = 404 //查无此人
+        }else{
+            ctx.response.body = 'post information ok'
+        }
+    }catch(err){
+        ctx.response.status = 500;
+    }
 
 
 
