@@ -1,4 +1,3 @@
-import { port } from "_debugger";
 
 const config = {
     port:3000,
