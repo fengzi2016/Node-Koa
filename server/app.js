@@ -20,6 +20,10 @@ require('./routes')(app);
 // });
 
 //根据访问时间设置cookie
+
+
+
+
 app.keys=['IM']
 app.use(async (ctx)=>{
     let value = 'guan'
