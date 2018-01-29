@@ -4,11 +4,6 @@ const commentTemplate = require('../../../dao/comment');
 const combineTemplate = require('../../../dao/article_user_comment');
 const crypto = require ('crypto');//生成不重复的激活码
 const sendMailer = require('../../util/email/send_mailer');
-// const session = require('koa-session-minimal');
-// const koa = require('koa');
-// const app = new koa();
-
-
 
 //前台
 
@@ -60,6 +55,8 @@ exports.loginFront = async(ctx,next)=>{
 
     let pwd = ctx.request.body.password;
     let email = ctx.request.body.email;
+    console.log('pwd:'+pwd);
+    console.log('email:'+email)
     let emailresult = await userTemplate.getByEmail(email);
     let result = await userTemplate.login(email,pwd);
     if(emailresult.length === 0){
@@ -70,6 +67,7 @@ exports.loginFront = async(ctx,next)=>{
         ctx.response.status = 403;
         ctx.response.body ='密码错误'
     }else{
+      
         // app.use(session({
         //     key: 'SESSION_ID',
         //     cookie:
@@ -79,17 +77,23 @@ exports.loginFront = async(ctx,next)=>{
         ctx.session = {
             user_id: Math.random().toString(36).substr(2)+date,
         }
-        
         ctx.cookies.set('SESSION_ID',ctx.session,{
-            domain: 'localhost',//写cookie所在域名
-            path: '/user/login',//写cookie所在路径
             maxAge:10*60*100,//cookie有效时长
             httpOnly: true,//是否只用于https请求中
             overwrite:false,//是否允许重写
             signed:true//是否有签名
         });
-        ctx.cookies
-        ctx.body = ctx.session;   
+        // ctx.cookies
+      
+    //    let session = ctx.cookies.get('SESSION_ID');
+    //    ctx.body = JSON.stringify(session);
+       if(ctx.session.isNew){
+           ctx.body = 1
+       }else{
+           ctx.body = 2
+       }
+
+
     }
     
     
